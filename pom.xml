@@ -1,0 +1,181 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.mrms</groupId>
+  <artifactId>mrms</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>mrms Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+   <!-- 工程编码 -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- junit -->
+    <junit.version>4.11</junit.version>
+    <!-- spring -->
+    <!-- <spring.version>4.0.0.RELEASE</spring.version> -->
+    <spring.version>3.2.3.RELEASE</spring.version>
+    <!-- aop -->
+    <aopalliance.version>1.0</aopalliance.version>
+    <antlr.version>2.7.7</antlr.version>
+    <aspectjweaver.version>1.7.2</aspectjweaver.version>
+    <!-- hibernate -->
+    <!-- <hibernate.version>4.3.0.Final</hibernate.version> -->
+    <hibernate.version>4.2.2.Final</hibernate.version>
+    <hibernate.jpa.version>1.0.1.Final</hibernate.jpa.version>
+    <hibernate.annotation.version>4.0.2.Final</hibernate.annotation.version>
+    <!-- json -->
+    <jackson.version>2.2.1</jackson.version>
+	<!-- mybatis -->
+    <mybatis.version>3.2.2</mybatis.version>
+    <mybatis.spring.version>1.2.0</mybatis.spring.version>  
+    <!-- 基础工具 -->
+    <common.lang.version>3.1</common.lang.version>
+    <common.collection.version>4.0.2.Final</common.collection.version>
+    <common.beanutils.version>1.8.3</common.beanutils.version>
+    <!-- 日志 -->
+    <common.logging.version>4.0.2.Final</common.logging.version>
+    <log4j.version>4.0.2.Final</log4j.version>
+	<!-- 缓存 -->
+	<ehcache.version>2.6.2</ehcache.version>
+	<!-- 连接池 -->
+    <c3p0.version>0.9.1.2</c3p0.version>
+      <!-- mysql driver -->
+      <mysql.version>5.1.25</mysql.version>
+
+	<!-- Servlet -->
+    <servlet.version>2.5</servlet.version>
+    <jstl.version>1.2</jstl.version>
+
+  </properties>
+
+  <dependencies>
+     <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>${jstl.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    
+    <dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-context-support</artifactId>
+  <version>${spring.version}</version>
+</dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>antlr</groupId>
+      <artifactId>antlr</artifactId>
+      <version>${antlr.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>aopalliance</groupId>
+      <artifactId>aopalliance</artifactId>
+      <version>${aopalliance.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>${aspectjweaver.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${common.lang.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>${common.beanutils.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>c3p0</groupId>
+      <artifactId>c3p0</artifactId>
+      <version>${c3p0.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <dependency>
+    	<groupId>net.sf.ehcache</groupId>
+    	<artifactId>ehcache-core</artifactId>
+    	<version>${ehcache.version}</version>
+    </dependency>
+    
+      <dependency>
+          <groupId>org.mybatis</groupId>
+          <artifactId>mybatis</artifactId>
+          <version>${mybatis.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.mybatis</groupId>
+          <artifactId>mybatis-spring</artifactId>
+          <version>${mybatis.spring.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>${mysql.version}</version>
+      </dependency>
+
+  </dependencies>
+  
+  <build>
+	<finalName>mrms</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
