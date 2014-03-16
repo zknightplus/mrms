@@ -12,34 +12,83 @@
 <body>
 <div class="container">
     <div class="page-header">
-        <h1>>会议纪要管理</h1>
+        <h1>会议纪要管理</h1>
     </div>
-
-
-    <div ng-controller="conferenceController">
-        <!-- 会议纪要查询 -->
-        <div>
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>全选</th>
-                    <th>会议名称</th>
-                    <th>会议开始时间</th>
-                    <th>会议结束时间</th>
-                    <th>ID</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                    <tr ng-repeat="conference in conferenceList">
-                        <td></td>
-                        <td>{{conference.name}}</td>
-                        <td>{{conference.startDate}}</td>
-                        <td>{{conference.endDate}}</td>
-                        <td>{{conference.id}}</td>
+    <div ng-controller="summaryController">
+        <!-- 会议纪要管理-->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="btn-group">
+                <button type="button" class="btn btn-danger" ng-click="deleteSummary()">删除</button>
+                <button type="button" class="btn btn-primary" ng-click="showSummary()">查看</button>
+                <button type="button" class="btn btn-primary" ng-click="showAddSummary()">添加</button>
+                </div>
+            </div>
+            <!--会议纪要查询 -->
+            <div class="panel-body">
+                <table class="table table-hover">
+					<thead>
+                    <tr>
+                        <th>选择</th>
+                        <th>会议时间</th>
+                        <th>会次</th>
+                        <th>纪要名称</th>
                     </tr>
-                </tbody>
-            </table>
+					</thead>
+
+					<tbody>
+                    <tr ng-repeat="summary in summaryList">
+                        <td><input type="checkbox" id="{{summary.id}}" ng-model="summary.selected"/> </td>
+                        <td>{{summary.startDate}}</td>
+                        <td>{{summary.no}}</td>
+                        <td>{{user.attachFileName}}</td>
+                    </tr>
+					</tbody>
+                </table>
+
+            </div>
+
+            <!--添加会议纪要 -->
+            <div class="modal fade" id="createSummaryDialog">
+                <div class="modal-dialog">
+                    <form class="form-horizontal" role="form">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">添加会议纪要</h4>
+                        </div>
+                        <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="newSummaryStartDate" class="col-sm-2 control-label">会议时间</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="newSummaryStartDate" />
+                                    </div>
+                                </div>
+								<div class="form-group">
+                                    <label for="newSummaryNo" class="col-sm-2 control-label">会次</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="newSummaryNo" ng-model="newSummary.no"/>
+                                    </div>
+                                </div>
+								<div class="form-group">
+                                    <label for="newSummaryAttach" class="col-sm-2 control-label">会议纪要附件</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="newSummaryAttach"/>
+                                    </div>
+                                </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" ng-click="addSummary()">保存</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                    </form>
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
         </div>
 
 
@@ -56,23 +105,51 @@
 
         var app = angular.module('App', ['ngResource'], function(){
         });
+		
+		app.factory('Summary', function($resource){
+			return $resource("./:id", {}, {
+				list:{
+					method:'GET',
+					params:{id:'list'},
+					isArray:true
+				},
+                query:{
+                    method:'GET',
+                    params:{id:'query'},
+                    isArray:true
+                },
+				update:{
+					method:'PUT'
+				}
+			});
+		});
+		
+		app.controller('summaryController', function($scope, Summary){
+			//页面初始化时访问后台取得会议纪要列表信息并加载
+			$scope.summaryList = Summary.query();
 
-        app.factory('Conference', function($resource){
-           return $resource("./:id", {}, {
-               list:{
-                   method:'GET',
-                   params:{id:'list'},
-                   isArray:true
-               },
-               update:{
-                   method:'PUT'
-               }
-           })
-        });
+			$scope.showAddSummary = function(){
+				$scope.newSummary  = new Object();
+				$('#createSummaryDialog').modal('show');
+			};
+			
+			$scope.addSummary = function(){
+				Summary.save($scope.newSummary, function(){
+					$('#createSummaryDialog').modal('hide');
+					$scope.summaryList = Summary.list();
+				});
+			}
+		
+			$scope.deleteSummary = function(summary){
+				if(!confirm("确认删除会议记录，记录相关的会议议题和议定事项也将被删除。")){
+                    return;
+                }
+                Summary.delete({id:summary.id}, function(){
+					$scope.summaryList = Summary.list();
+				});
+			}
+		});
 
-        app.controller('conferenceController', function($scope, Conference){
-            $scope.conferenceList = Conference.list();
-        });
 
     </script>
 </div>

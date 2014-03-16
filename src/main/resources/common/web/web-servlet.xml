@@ -20,24 +20,26 @@
 	</mvc:annotation-driven>
 
     <!-- Web控制器 -->
-	<context:component-scan base-package="com.mrms.conf.summary.web.controller" />
+	<context:component-scan base-package="com.mrms" >
+        <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+    </context:component-scan>
 
-	<aop:aspectj-autoproxy proxy-target-class="true" />
-
+	<aop:aspectj-autoproxy proxy-target-class="false" />
 
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 		<property name="favorPathExtension" value="false" />
 	</bean>
 
-    <!--
-    <mvc:interceptors>
-        <bean class="com.github.effectee.ip.gv.rest.interceptor.BaseRestfulInterceptor"/>
-    </mvc:interceptors>
-    -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 
+
+    <!--文件上传-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="100000000" /><!-- 100M -->
+    </bean>
 </beans>

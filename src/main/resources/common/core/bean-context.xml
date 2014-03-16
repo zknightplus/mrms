@@ -22,9 +22,9 @@
 	    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
-    <!--
+
 	 <aop:aspectj-autoproxy proxy-target-class="true"/>
-    -->
+
 	
 
 	
