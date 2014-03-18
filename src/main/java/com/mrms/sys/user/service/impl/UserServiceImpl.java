@@ -1,6 +1,7 @@
 package com.mrms.sys.user.service.impl;
 
 
+import com.mrms.common.util.MD5Util;
 import com.mrms.sys.user.dao.IUserDao;
 import com.mrms.sys.user.domain.User;
 import com.mrms.sys.user.service.IUserService;
@@ -17,8 +18,27 @@ public class UserServiceImpl implements IUserService{
     private IUserDao userDao;
 
     @Override
-    public void create(User user) {
+    public String create(User user) {
+        User aUser = findByAccount(user.getAccount());
+        if(aUser != null){
+            return "1";
+        }
+        user.setPwd(MD5Util.toMD5("123456"));
         userDao.create(user);
+        return "0";
+    }
+
+    public String changePwd(String account, String oldPwd, String newPwd){
+        User user = findByAccount(account);
+        String oldMd5 = MD5Util.toMD5(oldPwd);
+        if(oldPwd.equals(user.getPwd())){
+            String newMd5 = MD5Util.toMD5(newPwd);
+            user.setPwd(newMd5);
+            update(user);
+            return "0";
+        }else{
+            return "1";
+        }
     }
 
     @Override
@@ -49,5 +69,10 @@ public class UserServiceImpl implements IUserService{
             userDao.delete(id);
         }
 
+    }
+
+    @Override
+    public User findByAccount(String account) {
+        return userDao.findByAccount(account);
     }
 }

@@ -5,4 +5,5 @@ import com.mrms.common.dao.IGenericDao;
 import com.mrms.sys.user.domain.User;
 
 public interface IUserDao extends IGenericDao<User, String> {
+    User findByAccount(String account);
 }

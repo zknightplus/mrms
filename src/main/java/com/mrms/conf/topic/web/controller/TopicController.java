@@ -57,7 +57,9 @@ public class TopicController {
     @RequestMapping(value="query", method = RequestMethod.GET)
     @ResponseBody
     public List<Topic> query(){
-        return topicService.list();
+        List<Topic> topics = topicService.list();
+
+        return topics;
     }
 
 }

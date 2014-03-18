@@ -1,5 +1,7 @@
 package com.mrms.sys.user.domain;
 
+import com.mrms.base.param.domain.ParamItem;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,7 @@ public class User {
     @GeneratedValue
     private String id;
 
+    /**登陆账号**/
     private String account;
 
     private String pwd;
@@ -22,6 +25,28 @@ public class User {
     private String telNo;
 
     private String email;
+
+    private Boolean admin;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="duty_id")
+    private ParamItem duty;
+
+    public ParamItem getDuty() {
+        return duty;
+    }
+
+    public void setDuty(ParamItem duty) {
+        this.duty = duty;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
 
     public String getAccount() {
         return account;

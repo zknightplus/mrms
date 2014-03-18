@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    public void create(User user);
+    public String create(User user);
 
     public void delete(String id);
 
@@ -15,4 +15,6 @@ public interface IUserService {
     public List<User> findAll();
 
     void deleteBatch(String ids);
+
+    User findByAccount(String account);
 }

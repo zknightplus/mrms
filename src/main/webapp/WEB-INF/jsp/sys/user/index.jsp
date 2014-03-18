@@ -16,135 +16,161 @@
     </div>
     <div ng-controller="userController">
         <!-- 用户维护 -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="btn-group">
-                <button type="button" class="btn btn-primary" ng-click="showUpdateUser()">编辑</button>
-                <button type="button" class="btn btn-danger" ng-click="deleteUsers()">删除</button>
-                <button type="button" class="btn btn-primary">查看</button>
-                <button type="button" class="btn btn-danger">取消管理员</button>
-                <button type="button" class="btn btn-primary" ng-click="showAddUser()">添加用户</button>
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active"><a href="#home" data-toggle="tab">会议办用户</a></li>
+            <li><a href="#profile" data-toggle="tab">责任单位用户</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="home">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" ng-click="showUpdateUser()">编辑</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteUsers()">删除</button>
+                            <button type="button" class="btn btn-primary">查看</button>
+                            <button type="button" class="btn btn-danger">取消管理员</button>
+                            <button type="button" class="btn btn-primary" ng-click="showAddUser()">添加用户</button>
+                        </div>
+                    </div>
+                    <!--用户查询 -->
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>登陆账号</th>
+                                <th>姓名</th>
+                                <th>联系电话</th>
+                                <th>邮箱</th>
+                            </tr>
+                            </thead>
+
+
+                            <tbody>
+                            <tr ng-repeat="user in userList" ng-dblclick="showUpdateUser(user)">
+                                <td><input type="checkbox" id="{{user.id}}" ng-model="user.selected"/> </td>
+                                <td>{{user.account}}</td>
+                                <td>{{user.name}}</td>
+                                <td>{{user.telNo}}</td>
+                                <td>{{user.email}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="modal fade" id="updateUserDialog">
+                        <!--修改用户 -->
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">修改用户信息</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="updateUserAccount" class="col-sm-2 control-label">账号</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="updateUserAccount" ng-model="updateUserInfo.account" value="{{updateUserInfo.account}}" readonly="true"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="updateUserName" class="col-sm-2 control-label">姓名</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="updateUserName" value="{{updateUserInfo.name}}" ng-model="updateUserInfo.name"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateUserTelNo" class="col-sm-2 control-label">联系电话</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="updateUserTelNo" value="{{updateUserInfo.telNo}}" ng-model="updateUserInfo.telNo"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateUserEmail" class="col-sm-2 control-label">邮箱</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="updateUserEmail" value="{{updateUserInfo.email}}" ng-model="updateUserInfo.email"/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary" ng-click="updateUser(updateUserInfo)">保存</button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+
+                    <!--添加用户 -->
+                    <div class="modal fade" id="createUserDialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">添加用户</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="newUserAccount" class="col-sm-3 control-label">登陆账号</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="newUserAccount" ng-model="newUser.account"/>
+                                            </div>
+                                            <div class="col-sm-3 control-label">英文数字组合</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="newUserAdmin" class="col-sm-3 control-label">设为管理员</label>
+                                            <div class="col-sm-1">
+                                                <input type="checkbox" class="form-control" id="newUserAdmin" ng-model="newUser.admin"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="newUserName" class="col-sm-3 control-label">姓名</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="newUserName" ng-model="newUser.name"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="newUserDuty" class="col-sm-3 control-label">职务</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="newUserDuty" ng-model="newUser.duty.id"
+                                                        ng-options="duty.id as duty.name for duty in dutyList"
+                                                        >
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="newUserTelNo" class="col-sm-3 control-label">联系电话</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="newUserTelNo" ng-model="newUser.telNo"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="newUserEmail" class="col-sm-3 control-label">邮箱</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="newUserEmail" ng-model="newUser.email"/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary" ng-click="addUser()">保存</button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+
                 </div>
-            </div>
-            <!--用户查询 -->
-            <div class="panel-body">
-                <table class="table table-hover">
-					<thead>
-                    <tr>
-                        <th>选择</th>
-                        <th>登陆账号</th>
-                        <th>姓名</th>
-                        <th>联系电话</th>
-                        <th>邮箱</th>
-                    </tr>
-					</thead>
-					
-					
-					<tbody>
-                    <tr ng-repeat="user in userList" ng-dblclick="showUpdateUser(user)">
-                        <td><input type="checkbox" id="{{user.id}}" ng-model="user.selected"/> </td>
-                        <td>{{user.account}}</td>
-                        <td>{{user.name}}</td>
-                        <td>{{user.telNo}}</td>
-                        <td>{{user.email}}</td>
-                    </tr>
-					</tbody>
-                </table>
+
 
             </div>
-
-            <div class="modal fade" id="updateUserDialog">
-            <!--修改用户 -->
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">修改用户信息</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <label for="updateUserAccount" class="col-sm-2 control-label">账号</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="updateUserAccount" ng-model="updateUserInfo.account" value="{{updateUserInfo.account}}" readonly="true"/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="updateUserName" class="col-sm-2 control-label">姓名</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="updateUserName" value="{{updateUserInfo.name}}" ng-model="updateUserInfo.name"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="updateUserTelNo" class="col-sm-2 control-label">联系电话</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="updateUserTelNo" value="{{updateUserInfo.telNo}}" ng-model="updateUserInfo.telNo"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="updateUserEmail" class="col-sm-2 control-label">邮箱</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="updateUserEmail" value="{{updateUserInfo.email}}" ng-model="updateUserInfo.email"/>
-                                    </div>
-                                </div>
-							</form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-primary" ng-click="updateUser(updateUserInfo)">保存</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-
-            <!--添加用户 -->
-            <div class="modal fade" id="createUserDialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">添加用户</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <label for="newUserAccount" class="col-sm-2 control-label">用户账号</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="newUserAccount" ng-model="newUser.account">
-                                    </div>
-                                </div>
-								<div class="form-group">
-                                    <label for="newUserName" class="col-sm-2 control-label">用户名称</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="newUserName" ng-model="newUser.name">
-                                    </div>
-                                </div>
-								<div class="form-group">
-                                    <label for="newUserTelNo" class="col-sm-2 control-label">联系电话</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="newUserTelNo" ng-model="newUser.telNo">
-                                    </div>
-                                </div>								
-								<div class="form-group">
-                                    <label for="newUserEmail" class="col-sm-2 control-label">邮箱</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="newUserEmail" ng-model="newUser.email">
-                                    </div>
-                                </div>								
-
-								</form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-primary" ng-click="addUser()">保存</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-
+            <div class="tab-pane" id="profile">...</div>
         </div>
-
 
     </div>
 
@@ -156,6 +182,11 @@
     <script src="../../../s/third/bootstrap/3.0.2/js/bootstrap.js" type="text/javascript"></script>
 
     <script type="text/javascript">
+
+        $(function () {
+            $('#myTab a:first').tab('show')
+        })
+
 
         var app = angular.module('App', ['ngResource'], function(){
         });
@@ -172,10 +203,22 @@
 				}
 			});
 		});
-		
-		app.controller('userController', function($scope, User){
+
+        app.factory('Items', function($resource){
+            return $resource("../../base/param/category/:id/list", {}, {
+                list:{
+                    method:'GET',
+                    params:{id:'list'},
+                    isArray:true
+                }
+            })
+        });
+
+		app.controller('userController', function($scope, User, Items){
 			//页面初始化时访问后台取得用户列表信息并加载
 			$scope.userList = User.list();
+
+            $scope.dutyList = Items.list({id:'6'});
 			
 			$scope.showUpdateUser = function(user){
 				$scope.selectedUser = user;
@@ -198,6 +241,8 @@
 			};
 			
 			$scope.addUser = function(){
+                //会议管理处
+                $scope.newUser.type = '1';
 				User.save($scope.newUser, function(){
 					$('#createUserDialog').modal('hide');
 					$scope.userList = User.list();

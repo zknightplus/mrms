@@ -1,6 +1,8 @@
 package com.mrms.conf.topic.domain;
 
 
+import com.mrms.base.param.domain.ParamItem;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,11 +15,21 @@ public class Topic {
     @GeneratedValue
     private String id;
 
-    @Column(name = "CONF_TYPE_ID")
-    private String confTypeId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CONF_TYPE_ID")
+    private ParamItem confType;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "REPORT_UNIT_ID")
+    private ParamItem reportUnit;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "SUBJECT_ID")
+    private ParamItem subject;
 
     private String name;
 
+    @Column(name="CONF_NO")
     private String confNo;
 
 //    private Date date;
@@ -31,12 +43,28 @@ public class Topic {
 //    private String summary;
 
 
-    public String getConfTypeId() {
-        return confTypeId;
+    public ParamItem getReportUnit() {
+        return reportUnit;
     }
 
-    public void setConfTypeId(String confTypeId) {
-        this.confTypeId = confTypeId;
+    public void setReportUnit(ParamItem reportUnit) {
+        this.reportUnit = reportUnit;
+    }
+
+    public ParamItem getSubject() {
+        return subject;
+    }
+
+    public void setSubject(ParamItem subject) {
+        this.subject = subject;
+    }
+
+    public ParamItem getConfType() {
+        return confType;
+    }
+
+    public void setConfType(ParamItem confType) {
+        this.confType = confType;
     }
 
     public String getId() {

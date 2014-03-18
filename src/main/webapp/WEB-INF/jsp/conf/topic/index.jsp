@@ -38,7 +38,7 @@
 					<tbody>
                     <tr ng-repeat="topic in topicList">
                         <td><input type="checkbox" id="{{topic.id}}" ng-model="topic.selected"/> </td>
-                        <td>{{topic.confTypeId}}</td>
+                        <td>{{topic.confType.name}}</td>
                         <td>{{topic.name}}</td>
                     </tr>
 					</tbody>
@@ -59,9 +59,9 @@
                             <div class="form-group">
                                 <label for="newTopicConfType" class="col-sm-2 control-label">议题类型</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control" id="newTopicConfType" ng-model="newTopic.confTypeId"
+                                    <select class="form-control" id="newTopicConfType" ng-model="newTopic.confType.id"
                                             ng-options="confType.id as confType.name for confType in confTypeList"
-                                            ng-init="newTopic.confTypeId = '1'">
+                                            >
                                     </select>
                                 </div>
                             </div>
@@ -72,6 +72,42 @@
                                         <input type="text" class="form-control" id="newTopicName" ng-model="newTopic.name"/>
                                     </div>
                                 </div>
+                            <div class="form-group">
+                                <label for="newTopicConfNo" class="col-sm-2 control-label">次数</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="newTopicConfNo" ng-model="newTopic.confNo"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="newTopicReportUnit" class="col-sm-2 control-label">汇报单位</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" id="newTopicReportUnit" ng-model="newTopic.reportUnit.id"
+                                            ng-options="reportUnit.id as reportUnit.name for reportUnit in reportUnitList"
+                                            >
+                                    </select>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="form-group">
+                                <label for="newTopicReportUser" class="col-sm-2 control-label">汇报人</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" id="newTopicReportUser" ng-model="newTopic.reportUser.id"
+                                            ng-options="reportUser.id as reportUser.name for reportUser in reportUserList"
+                                            >
+                                    </select>
+                                </div>
+                            </div>
+                            -->
+                            <div class="form-group">
+                                <label for="newTopicSubject" class="col-sm-2 control-label">议题主题</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" id="newTopicSubject" ng-model="newTopic.subject.id"
+                                            ng-options="reportSubject.id as reportSubject.name for reportSubject in reportSubjectList"
+                                            >
+                                    </select>
+                                </div>
+                            </div>
+
                             <!--
 <div class="form-group">
     <label for="exampleInputFile">File input</label>
@@ -142,6 +178,10 @@
 			$scope.topicList = Topic.query();
 
             $scope.confTypeList = Items.list({id:'1'});
+            $scope.reportUnitList = Items.list({id:'3'});
+            //TODO: $scope.reportUserList = Items.list({id:'1'});
+            $scope.reportSubjectList = Items.list({id:'2'});
+
 
 			$scope.showAdd = function(){
 				$scope.newTopic  = new Object();
@@ -152,7 +192,7 @@
                 console.log($scope.newTopic);
 				Topic.save($scope.newTopic, function(){
 					$('#createDialog').modal('hide');
-					$scope.topicList = Topic.list();
+					$scope.topicList = Topic.query();
 				});
 			}
 		
