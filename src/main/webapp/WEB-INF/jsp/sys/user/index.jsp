@@ -124,6 +124,7 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h4 class="modal-title">添加用户</h4>
+                                {{msg}}
                             </div>
                             <div class="modal-body">
                                 <form class="form-horizontal" role="form">
@@ -301,7 +302,7 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h4 class="modal-title">添加用户</h4>
-                                {{errorMsg}}
+                                {{msg}}
                             </div>
                             <div class="modal-body">
                                 <form class="form-horizontal" role="form">
@@ -457,8 +458,9 @@
                 if(result.code == '0'){
                     $('#createUserDialog').modal('hide');
                     $scope.userList = User.list();
+                    $scope.msg = '';
                 }else{
-                    $scope.errorMsg = result.msg;
+                    $scope.msg = result.msg;
                 }
 
             });

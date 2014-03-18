@@ -23,7 +23,7 @@ public class UserServiceImpl implements IUserService{
         if(aUser != null){
             return "1";
         }
-        aUser = findByAccount(user.getAccount());
+        aUser = findByEmail(user.getEmail());
         if(aUser != null){
             return "2";
         }
