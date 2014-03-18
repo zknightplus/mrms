@@ -194,7 +194,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" ng-click="showUpdateUser()">编辑</button>
+                        <button type="button" class="btn btn-primary" ng-click="showUpdateUser2()">编辑</button>
                         <button type="button" class="btn btn-danger" ng-click="deleteUsers()">删除</button>
                         <button type="button" class="btn btn-primary">查看</button>
                         <button type="button" class="btn btn-danger">取消管理员</button>
@@ -301,6 +301,7 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h4 class="modal-title">添加用户</h4>
+                                {{errorMsg}}
                             </div>
                             <div class="modal-body">
                                 <form class="form-horizontal" role="form">
@@ -347,7 +348,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                <button type="button" class="btn btn-primary" ng-click="addUser2()">保存</button>
+                                <button type="button" class="btn btn-primary" ng-click="addUser()">保存</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -417,6 +418,13 @@
             $('#updateUserDialog').modal('show');
         };
 
+        $scope.showUpdateUser2 = function (user) {
+            $scope.selectedUser = user;
+            $scope.updateUserInfo = angular.copy(user);
+
+            $('#updateUserDialog2').modal('show');
+        };
+
         $scope.updateUser = function (updateUserInfo) {
             User.update({id: updateUserInfo.id}, updateUserInfo, function () {
                 angular.copy(updateUserInfo, $scope.selectedUser);
@@ -434,13 +442,25 @@
         $scope.showAddUser2 = function () {
             $scope.newUser = new Object();
             $scope.newUser.type = '2';
+            $('#createUserDialog2').modal('show');
+        };
+
+
+        $scope.showAddUser2 = function () {
+            $scope.newUser = new Object();
+            $scope.newUser.type = '2';
             $('#createUserDialog').modal('show');
         };
 
         $scope.addUser = function () {
-            User.save($scope.newUser, function () {
-                $('#createUserDialog').modal('hide');
-                $scope.userList = User.list();
+            User.save($scope.newUser, function (result) {
+                if(result.code == '0'){
+                    $('#createUserDialog').modal('hide');
+                    $scope.userList = User.list();
+                }else{
+                    $scope.errorMsg = result.msg;
+                }
+
             });
         }
 

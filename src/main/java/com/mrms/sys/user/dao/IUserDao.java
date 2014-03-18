@@ -6,4 +6,6 @@ import com.mrms.sys.user.domain.User;
 
 public interface IUserDao extends IGenericDao<User, String> {
     User findByAccount(String account);
+
+    User findByEmail(String email);
 }

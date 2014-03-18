@@ -15,4 +15,12 @@ public class UserDaoImpl extends BaseHibernateDao<User, String> implements IUser
         c.add(Restrictions.eq("account", account));
         return (User)c.uniqueResult();
     }
+
+    @Override
+    public User findByEmail(String email) {
+        Criteria c = createCriteria();
+        c.add(Restrictions.eq("email", email));
+        return (User)c.uniqueResult();
+
+    }
 }

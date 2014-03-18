@@ -23,6 +23,10 @@ public class UserServiceImpl implements IUserService{
         if(aUser != null){
             return "1";
         }
+        aUser = findByAccount(user.getAccount());
+        if(aUser != null){
+            return "2";
+        }
         user.setPwd(MD5Util.toMD5("123456"));
         userDao.create(user);
         return "0";
@@ -74,5 +78,9 @@ public class UserServiceImpl implements IUserService{
     @Override
     public User findByAccount(String account) {
         return userDao.findByAccount(account);
+    }
+
+    public User findByEmail(String email) {
+        return userDao.findByEmail(email);
     }
 }
